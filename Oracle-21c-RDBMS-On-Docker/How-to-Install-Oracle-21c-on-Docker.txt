@@ -1,0 +1,191 @@
+1.  You need to have an account profile on container-registry.oracle.com
+    If you dont have one, go ahead and create it
+
+2.  Assumption: Your non-root-user has the sudo permissions to run docker commands
+
+3.  Once you are logged in as the non-root-user to the machine, execute the following command
+    to login to 'container-registry.oracle.com' so that you can pull the db image
+
+        sudo docker login container-registry.oracle.com
+
+        Output:
+        WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+        Configure a credential helper to remove this warning. See
+        https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+        Login Succeeded
+
+3.  Now, go ahead and pull the image of the database
+        sudo docker pull container-registry.oracle.com/database/enterprise:latest
+
+        Output:
+        Trying to pull repository container-registry.oracle.com/database/enterprise ...
+        latest: Pulling from container-registry.oracle.com/database/enterprise
+        66fb34780033: Pull complete
+        3160e5ce220f: Pull complete
+        0437799a5b58: Pull complete
+        482f23cb4332: Pull complete
+        aa126f7f477e: Pull complete
+        301b19663f45: Pull complete
+        05f1fb1cf84e: Pull complete
+        598f60c72ddf: Pull complete
+        81e8d20d2156: Pull complete
+        9d9c75a88c10: Pull complete
+        bca95ae31b8e: Pull complete
+        4398a68b7fea: Pull complete
+        93a2104a5838: Pull complete
+        26cd4127e02c: Pull complete
+        5809f26d1dd7: Pull complete
+        6fe7a53a2535: Pull complete
+        30c9251aff49: Pull complete
+
+        Digest: sha256:e2518d6d42c67a1778b2d0a7b7a447f0dd42d9729d112b4b3e89db874dcc5aac
+        Status: Downloaded newer image for container-registry.oracle.com/database/enterprise:latest
+        container-registry.oracle.com/database/enterprise:latest
+
+4.  Once the image pull is complete, run the following command to create a container based on the pulled image.
+    The command will provide the container id as the output
+        sudo docker run -dit -p 1521:1521 --name samarth_container_oracledb_21c container-registry.oracle.com/database/enterprise:latest
+        0b344c25df6cf3aa25d84cf14de3ce6cf85fa4ffddeb18878c66de2f27665b62
+
+5.  Once the container is created, run the following command to see the logs w.r.t progress of container creation
+        sudo docker logs -f samarth_container_oracledb_21c
+
+        Following are the logs:
+        
+		[2023:01:06 00:47:33]: Acquiring lock .ORCLCDB.create_lck with heartbeat 30 secs
+		[2023:01:06 00:47:33]: Lock acquired
+		[2023:01:06 00:47:33]: Starting heartbeat
+		[2023:01:06 00:47:33]: Lock held .ORCLCDB.create_lck
+		ORACLE EDITION: ENTERPRISE
+		
+		LSNRCTL for Linux: Version 21.0.0.0.0 - Production on 06-JAN-2023 00:47:33
+		
+		Copyright (c) 1991, 2021, Oracle.  All rights reserved.
+		
+		Starting /opt/oracle/product/21c/dbhome_1/bin/tnslsnr: please wait...
+		
+		TNSLSNR for Linux: Version 21.0.0.0.0 - Production
+		System parameter file is /opt/oracle/homes/OraDB21Home1/network/admin/listener.ora
+		Log messages written to /opt/oracle/diag/tnslsnr/0b344c25df6c/listener/alert/log.xml
+		Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1)))
+		Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=0.0.0.0)(PORT=1521)))
+		
+		Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC1)))
+		STATUS of the LISTENER
+		------------------------
+		Alias                     LISTENER
+		Version                   TNSLSNR for Linux: Version 21.0.0.0.0 - Production
+		Start Date                06-JAN-2023 00:47:35
+		Uptime                    0 days 0 hr. 0 min. 2 sec
+		Trace Level               off
+		Security                  ON: Local OS Authentication
+		SNMP                      OFF
+		Listener Parameter File   /opt/oracle/homes/OraDB21Home1/network/admin/listener.ora
+		Listener Log File         /opt/oracle/diag/tnslsnr/0b344c25df6c/listener/alert/log.xml
+		Listening Endpoints Summary...
+		(DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1)))
+		(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=0.0.0.0)(PORT=1521)))
+		The listener supports no services
+		The command completed successfully
+		Prepare for db operation
+		8% complete
+		Copying database files
+		31% complete
+		Creating and starting Oracle instance
+		32% complete
+		36% complete
+		40% complete
+		43% complete
+		46% complete
+		Completing Database Creation
+		51% complete
+		54% complete
+		Creating Pluggable Databases
+		58% complete
+		77% complete
+		Executing Post Configuration Actions
+		100% complete
+		Database creation complete. For details check the logfiles at:
+		/opt/oracle/cfgtoollogs/dbca/ORCLCDB.
+		Database Information:
+		Global Database Name:ORCLCDB
+		System Identifier(SID):ORCLCDB
+		Look at the log file "/opt/oracle/cfgtoollogs/dbca/ORCLCDB/ORCLCDB.log" for further details.
+		
+		SQL*Plus: Release 21.0.0.0.0 - Production on Fri Jan 6 01:03:28 2023
+		Version 21.3.0.0.0
+		
+		Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+		
+		
+		Connected to:
+		Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+		Version 21.3.0.0.0
+		
+		SQL>
+		System altered.
+		
+		SQL>
+		System altered.
+		
+		SQL>
+		Pluggable database altered.
+		
+		SQL>
+		PL/SQL procedure successfully completed.
+		
+		SQL> SQL>
+		Session altered.
+		
+		SQL>
+		User created.
+		
+		SQL>
+		Grant succeeded.
+		
+		SQL>
+		Grant succeeded.
+		
+		SQL>
+		Grant succeeded.
+		
+		SQL>
+		User altered.
+		
+		SQL> SQL> Disconnected from Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+		Version 21.3.0.0.0
+		The Oracle base remains unchanged with value /opt/oracle
+		
+		Executing user defined scripts
+		/opt/oracle/runUserScripts.sh: running /opt/oracle/scripts/extensions/setup/swapLocks.sh
+		[2023:01:06 01:03:30]: Releasing lock .ORCLCDB.create_lck
+		[2023:01:06 01:03:30]: Lock released .ORCLCDB.create_lck
+		[2023:01:06 01:03:30]: Acquiring lock .ORCLCDB.exist_lck with heartbeat 30 secs
+		[2023:01:06 01:03:30]: Lock acquired
+		[2023:01:06 01:03:30]: Starting heartbeat
+		[2023:01:06 01:03:30]: Lock held .ORCLCDB.exist_lck
+		
+		DONE: Executing user defined scripts
+		
+		The Oracle base remains unchanged with value /opt/oracle
+		#########################
+		DATABASE IS READY TO USE!
+		#########################
+		The following output is now a tail of the alert.log:
+		ORCLPDB1(3):CREATE SMALLFILE TABLESPACE "USERS" LOGGING  DATAFILE  '/opt/oracle/oradata/ORCLCDB/ORCLPDB1/users01.dbf' SIZE 5M REUSE AUTOEXTEND ON NEXT  1280K MAXSIZE UNLIMITED  EXTENT MANAGEMENT LOCAL  SEGMENT SPACE MANAGEMENT  AUTO
+		ORCLPDB1(3):Completed: CREATE SMALLFILE TABLESPACE "USERS" LOGGING  DATAFILE  '/opt/oracle/oradata/ORCLCDB/ORCLPDB1/users01.dbf' SIZE 5M REUSE AUTOEXTEND ON NEXT  1280K MAXSIZE UNLIMITED  EXTENT MANAGEMENT LOCAL  SEGMENT SPACE MANAGEMENT  AUTO
+		ORCLPDB1(3):ALTER DATABASE DEFAULT TABLESPACE "USERS"
+		ORCLPDB1(3):Completed: ALTER DATABASE DEFAULT TABLESPACE "USERS"
+		2023-01-06T01:03:28.662581+00:00
+		ALTER SYSTEM SET control_files='/opt/oracle/oradata/ORCLCDB/control01.ctl' SCOPE=SPFILE;
+		2023-01-06T01:03:28.712624+00:00
+		ALTER SYSTEM SET local_listener='' SCOPE=BOTH;
+		ALTER PLUGGABLE DATABASE ORCLPDB1 SAVE STATE
+		Completed: ALTER PLUGGABLE DATABASE ORCLPDB1 SAVE STATE
+		2023-01-06T01:13:22.111210+00:00
+		ORCLPDB1(3):Resize operation completed for file# 10, fname /opt/oracle/oradata/ORCLCDB/ORCLPDB1/sysaux01.dbf, old size 337920K, new size 358400K
+		2023-01-06T01:18:22.854744+00:00
+		ORCLPDB1(3):TABLE SYS.ACTIVITY_TABLE$: ADDED INTERVAL PARTITION SYS_P341 (1) VALUES LESS THAN (106)
+
+
