@@ -1,0 +1,29 @@
+1.  Based on the Installation guide, if you were able to successfully install the DB, now you can login as sys 
+and change the default password.
+
+2.  Once you are logged in as the non-root-user to the machine, execute the following command
+        sudo docker exec -it your_container_name bash
+        OR
+        sudo docker exec -it your_container_name /bin/bash
+
+3.  You will see a bash prompt
+
+4.  Execute the following to open sqlplus
+        sqlplus /nolog
+
+5.  Once the sql prompt is opened, execute the following to connect as SYS
+        conn sys/Oradoc_db1 as sysdba
+
+        Note: Oradoc_db1 is default password from container.registry.oracle.com
+
+6.  Once you are connected as SYS, execute the following to change the default passwords
+
+        alter user sys identified by your_new_password;
+        alter user system identified by your_new_password;
+
+Note: Connection String to be used on sql clients for connection
+IP: IP address of your machine
+Port: 1521
+CDB/SID: ORCLCDB
+PDB/SN: ORCLPDB1
+
